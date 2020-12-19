@@ -11,7 +11,6 @@ export function createGetter(path) {
                 return search(list[item]);
             }
             if(list[item]) {
-                console.log(list[item]);
                 return list[item];
             }
         }
@@ -19,13 +18,3 @@ export function createGetter(path) {
 
     return search;
 }
-
-/*const product = {
-    category: {
-      title: "Goods"
-    }
-  }
-  
-const getter = createGetter('category.title');
-  
-console.log(getter(product)); // Goods*/
