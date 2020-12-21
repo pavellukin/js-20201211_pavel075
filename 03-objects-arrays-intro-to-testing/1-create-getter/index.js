@@ -4,8 +4,9 @@
  * @returns {function} - function-getter which allow get value from object by set path
  */
 export function createGetter(path) {
+    const pathAsArray = path.split(".");
     function search(list = {}) {
-        const pathAsArray = path.split(".");
+        
         for (const item of pathAsArray) {
             if (!!list[item] && typeof list[item] === "object") {
                 return search(list[item]);
