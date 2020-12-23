@@ -18,16 +18,7 @@ export function createGetter(path) {
         }
         if(list[item]) {
             return list[item];
-        }
-        /*for (const item of pathAsArray) {
-            if (!!list[item] && typeof list[item] === "object") {
-                return search(list[item]);
-            }
-            if(list[item]) {
-                return list[item];
-            }
-        }*/
-
+        }   
     }
 
     return search;
