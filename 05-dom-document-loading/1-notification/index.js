@@ -40,12 +40,11 @@ export default class NotificationMessage {
         const elem = document.querySelector(".notification");
         if(elem) {
             elem.remove();
-            this.destroy();
             clearTimeout(NotificationMessage.timeout);
         }
 
-        setTimeout(() => document.body.append(this.element), 100);
-
+        document.body.append(this.element)
+        
         NotificationMessage.timeout = setTimeout(() => {
             this.destroy();
         }, this.duration);
