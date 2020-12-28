@@ -71,6 +71,7 @@ export default class SortableTable {
 
     sort(field, order) {
         this.order = order;
+        const sortType = this.header.find((value) => value.id === field)?.sortType;
         switch(order) {
             case "asc":
                 this.update(makeOrderSorting(this.data, 1));
@@ -84,20 +85,18 @@ export default class SortableTable {
         }
 
         function makeOrderSorting(array, direction) {
-            if(field === "title") {
+            if(sortType === "string") {
                 return [...array].sort((a, b) => {
                     return direction * a[field].localeCompare(b[field], ["ru", "en"], {caseFirst: 'upper'});
                 });
             }
             
-            if(direction > 0) {
-                return [...array].sort((a, b) => {
-                    return a[field] - b[field];
-                });
-            } else {
-                return [...array].sort((a, b) => {
-                    return a[field] - b[field];
-                }).reverse();
+            if(sortType === "number") {
+                if(direction > 0) {
+                    return [...array].sort((a, b) => a[field] - b[field]);
+                } else {
+                    return [...array].sort((a, b) => a[field] - b[field]).reverse();
+                }
             }
         }
     }
