@@ -27,11 +27,7 @@ export default class SortableTable {
         return data.map(item => {
             return `
                 <a href="#" class="sortable-table__row">
-                    <div class="sortable-table__cell">
-                        ${this.getImage(item)}
-                    </div>
                     <div class="sortable-table__cell">${item.title}</div>
-                    <div class="sortable-table__cell">${item.quantity}</div>
                     <div class="sortable-table__cell">${item.price}</div>
                     <div class="sortable-table__cell">${item.sales}</div>
                 </a>`;
