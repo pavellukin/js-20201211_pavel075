@@ -1,7 +1,7 @@
 <!doctype html>
 <head>
   <meta charset="utf-8">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 
@@ -70,13 +70,12 @@
   ];
 
   const sortableTable = new SortableTable(header, { data });
-
   root.append(sortableTable.element);
 
   sort.addEventListener('click', () => {
     const fieldValue = field.value;
     const orderValue = order.value;
-
+    
     sortableTable.sort(fieldValue, orderValue);
   });
 </script>
