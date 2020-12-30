@@ -108,6 +108,15 @@ export default class SortableTable {
                 }
             }
         }
+
+        const allColumns = this.element.querySelectorAll('.sortable-table__cell[data-id]');
+        const currentColumn = this.element.querySelector(`.sortable-table__cell[data-id="${field}"]`);
+
+        allColumns.forEach(column => {
+        column.dataset.order = '';
+    });
+
+    currentColumn.dataset.order = order;
     }
 
     update(data) {
