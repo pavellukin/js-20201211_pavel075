@@ -20,12 +20,6 @@ export default class SortableTable {
         }).join("");
     }
 
-    getImage(imgUrl) {
-        if(imgUrl.images && imgUrl.images.length) {
-            return `<img class="sortable-table-image" alt="Image" src=${imgUrl.images[0].url}>`;
-        }
-    }
-
     getTableRow(item) {
         const cells = this.header.map(({id, template}) => {
             return {id, template};
@@ -113,10 +107,10 @@ export default class SortableTable {
         const currentColumn = this.element.querySelector(`.sortable-table__cell[data-id="${field}"]`);
 
         allColumns.forEach(column => {
-        column.dataset.order = '';
-    });
+            column.dataset.order = '';
+        });
 
-    currentColumn.dataset.order = order;
+        currentColumn.dataset.order = order;
     }
 
     update(data) {
