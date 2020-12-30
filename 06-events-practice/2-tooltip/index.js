@@ -2,16 +2,18 @@ class Tooltip {
     static instance = null;
 
     onPointerover = (event) => {
-        this.element.hidden = false;
         let target = event.target;
         if(target.tagName !== "DIV" && !target.dataset.tooltip) {
             return;
         }
+
+        this.element.hidden = false;
         this.element.textContent = target.dataset.tooltip;
+        document.body.append(this.element);
     }
 
     onPointerout = (event) => {
-        this.element.hidden = true;
+        this.element.remove();
     }
 
     onMousemove = (event) => {
@@ -22,16 +24,14 @@ class Tooltip {
     constructor() {
         if (!Tooltip.instance) {
             Tooltip.instance = this;
+            this.removeEventListeners();
         } else {
             return Tooltip.instance;
         }
-
-        this.render(true);
-        this.containers = document.querySelectorAll("div");
     }
 
     get template() {
-        return `<div id="container" class="tooltip"></div>`;
+        return `<div class="tooltip"></div>`;
     }
 
     render(hidden) {
@@ -43,14 +43,20 @@ class Tooltip {
     }
 
     addEventListeners() {
-        for (let item of [...this.containers]) {
-            item.addEventListener("pointerover", this.onPointerover);
-            item.addEventListener("pointerout", this.onPointerout);
-            item.addEventListener("mousemove", this.onMousemove);
-        }
+        document.body.addEventListener("pointerover", this.onPointerover);
+        document.body.addEventListener("pointerout", this.onPointerout);
+        document.body.addEventListener("mousemove", this.onMousemove);
+    }
+
+    removeEventListeners() {
+        document.body.removeEventListener("pointerover", this.onPointerover);
+        document.body.removeEventListener("pointerout", this.onPointerout);
+        document.body.removeEventListener("mousemove", this.onMousemove);
+        console.log(1234);
     }
 
     initialize() {
+        this.render(true);
         this.addEventListeners();
     }
 
