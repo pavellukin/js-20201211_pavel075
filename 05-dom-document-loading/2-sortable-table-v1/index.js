@@ -13,6 +13,9 @@ export default class SortableTable {
             return `
                 <div class="sortable-table__cell" data-id=${item.id} data-sortable=${item.sortable} data-order=${this.order}>
                     <span>${item.title}</span>
+                    <span data-element="arrow" class="sortable-table__sort-arrow">
+                        <span class="sort-arrow"></span>
+                    </span>
                 </div>`;
         }).join("");
     }
@@ -23,13 +26,23 @@ export default class SortableTable {
         }
     }
 
+    getTableRow(item) {
+        const cells = this.header.map(({id, template}) => {
+            return {id, template};
+        });
+
+        return cells.map(({id, template}) => {
+            return template 
+                ? template(item[id]) // imeges
+                : `<div class="sortable-table__cell">${item[id]}</div>`;
+        }).join("");
+    }
+
     getColumnBody(data) {
         return data.map(item => {
             return `
-                <a href="#" class="sortable-table__row">
-                    <div class="sortable-table__cell">${item.title}</div>
-                    <div class="sortable-table__cell">${item.price}</div>
-                    <div class="sortable-table__cell">${item.sales}</div>
+                <a href="/products/${item.id}" class="sortable-table__row">
+                    ${this.getTableRow(item)}
                 </a>`;
         }).join("");
     }
