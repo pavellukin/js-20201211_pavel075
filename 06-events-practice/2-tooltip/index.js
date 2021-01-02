@@ -52,7 +52,6 @@ class Tooltip {
         document.body.removeEventListener("pointerover", this.onPointerover);
         document.body.removeEventListener("pointerout", this.onPointerout);
         document.body.removeEventListener("mousemove", this.onMousemove);
-        console.log(1234);
     }
 
     initialize() {

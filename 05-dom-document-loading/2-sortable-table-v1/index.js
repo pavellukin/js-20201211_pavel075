@@ -95,11 +95,7 @@ export default class SortableTable {
             }
             
             if(sortType === "number") {
-                if(direction > 0) {
-                    return [...array].sort((a, b) => a[field] - b[field]);
-                } else {
-                    return [...array].sort((a, b) => a[field] - b[field]).reverse();
-                }
+                return [...array].sort((a, b) => direction * (a[field] - b[field]));
             }
         }
 
