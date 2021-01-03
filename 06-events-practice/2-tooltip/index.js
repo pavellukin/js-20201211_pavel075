@@ -2,18 +2,20 @@ class Tooltip {
     static instance = null;
 
     onPointerover = (event) => {
-        let target = event.target;
-        if(target.tagName !== "DIV" && !target.dataset.tooltip) {
+        const target = event.target;
+        if(target instanceof HTMLElement && !target.dataset.tooltip) {
             return;
         }
 
         this.element.hidden = false;
         this.element.textContent = target.dataset.tooltip;
         document.body.append(this.element);
+        document.body.addEventListener("mousemove", this.onMousemove);
     }
 
     onPointerout = (event) => {
         this.element.remove();
+        document.body.removeEventListener("mousemove", this.onMousemove);
     }
 
     onMousemove = (event) => {
@@ -24,7 +26,6 @@ class Tooltip {
     constructor() {
         if (!Tooltip.instance) {
             Tooltip.instance = this;
-            this.removeEventListeners();
         } else {
             return Tooltip.instance;
         }
@@ -45,13 +46,15 @@ class Tooltip {
     addEventListeners() {
         document.body.addEventListener("pointerover", this.onPointerover);
         document.body.addEventListener("pointerout", this.onPointerout);
-        document.body.addEventListener("mousemove", this.onMousemove);
     }
 
     removeEventListeners() {
         document.body.removeEventListener("pointerover", this.onPointerover);
         document.body.removeEventListener("pointerout", this.onPointerout);
-        document.body.removeEventListener("mousemove", this.onMousemove);
+    }
+
+    removeMousemove() {
+
     }
 
     initialize() {
@@ -65,6 +68,7 @@ class Tooltip {
 
     destroy() {
         this.remove();
+        this.removeEventListeners();
     }
 }
 

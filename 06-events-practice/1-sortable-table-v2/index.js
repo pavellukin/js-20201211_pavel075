@@ -2,11 +2,17 @@ export default class SortableTable {
     subElements = {};
     order = "";
 
-    constructor(header = [], { data = [], order = "asc", field = "price" } = {}) {
+    constructor(header = [], { data = [], order = "desc"} = {}) {
         this.header = header;
         this.data = data;
         this.order = order;
-        this.field = field;
+
+        for(const head of header) {
+            if(head.sortable) {
+                this.field = head.id;
+                break;
+            }
+        }
 
         this.render();
         this.element.querySelector("[data-element='header']").onclick = this.onClick.bind(this);
@@ -81,15 +87,15 @@ export default class SortableTable {
         const allColumns = this.element.querySelectorAll('.sortable-table__cell[data-id]');
         const currentColumn = this.element.querySelector(`.sortable-table__cell[data-id="${field}"]`);
 
-        let _dataOrder = currentColumn.dataset.order;
+        let dataOrder = currentColumn.dataset.order;
 
         if(field !== this.field) {
             this.field = field;
         } else {
-            if(_dataOrder === "asc") {
+            if(dataOrder === "asc") {
                 this.order = "desc";
             }
-            if(_dataOrder === "desc") {
+            if(dataOrder === "desc") {
                 this.order = "asc";
             }
         }
@@ -132,19 +138,17 @@ export default class SortableTable {
     }
 
     onClick(event) {
-        let _target = event.target.closest("div.sortable-table__cell");
-        if(!_target) {
-            return;
-        }
-        if(!this.subElements.header.contains(_target)) {
+        let target = event.target.closest("div.sortable-table__cell");
+
+        if(!target && !this.subElements.header.contains(target)) {
             return;
         }
 
-        let _field = _target.dataset.id;
-        let _isSortable = (_target.dataset.sortable === "true");
+        let field = target.dataset.id;
+        let isSortable = (target.dataset.sortable === "true");
    
-        if(_field && _isSortable) {
-            this.changeSortColumn(_field);
+        if(field && isSortable) {
+            this.changeSortColumn(field);
         }
     }
 
