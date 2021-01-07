@@ -1,6 +1,7 @@
 export default class SortableTable {
     subElements = {};
     order = "";
+    element;
 
     constructor(header = [], { data = [], order = "desc"} = {}) {
         this.header = header;
@@ -9,13 +10,13 @@ export default class SortableTable {
 
         for(const head of header) {
             if(head.sortable) {
-                this.field = head.id;
+                this.field = head?.id;
                 break;
             }
         }
 
         this.render();
-        this.element.querySelector("[data-element='header']").onclick = this.onClick.bind(this);
+        this.element.querySelector("[data-element='header']").onpointerdown = this.onClick.bind(this);
         this.changeSortColumn(this.field);
     }
 
