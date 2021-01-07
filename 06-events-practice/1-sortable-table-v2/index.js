@@ -1,12 +1,11 @@
 export default class SortableTable {
     subElements = {};
-    order = "";
     element;
 
-    constructor(header = [], { data = [], order = "desc"} = {}) {
+    constructor(header = [], { data = []} = {}) {
         this.header = header;
         this.data = data;
-        this.order = order;
+        this.order = "desc";
 
         for(const head of header) {
             if(head.sortable) {
@@ -17,7 +16,7 @@ export default class SortableTable {
 
         this.render();
         this.element.querySelector("[data-element='header']").addEventListener("pointerdown", this.onClick.bind(this));
-        this.changeSortColumn(this.field);
+        this.changeSortColumn(this.field, this.order);
     }
 
     getColumnHeader(header) {
@@ -84,20 +83,22 @@ export default class SortableTable {
         }, {});
     }
 
-    changeSortColumn(field) {
+    changeSortColumn(field, order = null) {
         const allColumns = this.element.querySelectorAll('.sortable-table__cell[data-id]');
         const currentColumn = this.element.querySelector(`.sortable-table__cell[data-id="${field}"]`);
 
         let dataOrder = currentColumn.dataset.order;
 
-        if(field !== this.field) {
-            this.field = field;
-        } else {
-            if(dataOrder === "asc") {
-                this.order = "desc";
-            }
-            if(dataOrder === "desc") {
-                this.order = "asc";
+        if(!order) {
+            if(field !== this.field) {
+                this.field = field;
+            } else {
+                if(dataOrder === "asc") {
+                    this.order = "desc";
+                }
+                if(dataOrder === "desc") {
+                    this.order = "asc";
+                }
             }
         }
                 
@@ -115,7 +116,6 @@ export default class SortableTable {
     }
 
     makeOrderSorting() {
-
         const _array = [...this.data];
         const { sortType } = this.header.find((value) => value.id === this.field);
         const direction = this.order === 'asc' ? 1 : -1;
