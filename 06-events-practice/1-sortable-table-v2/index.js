@@ -16,7 +16,7 @@ export default class SortableTable {
         }
 
         this.render();
-        this.element.querySelector("[data-element='header']").onpointerdown = this.onClick.bind(this);
+        this.element.querySelector("[data-element='header']").addEventListener("pointerdown", this.onClick.bind(this));
         this.changeSortColumn(this.field);
     }
 
